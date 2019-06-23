@@ -5,12 +5,27 @@ import { DTO } from './DTO';
 @Injectable()
 export class DataService {
 
-    private url = "/Home/Categories";
+    private homeUrl = "/Home/Index";
+    private categoriesUrl = "/Home/Categories";
+    private subCategoriesUrl = "/Home/Categories/SubCategories";
+    private testsUrl = "/Home/Categories/SubCategories/Tests";
 
     constructor(private http: HttpClient) {
     }
 
     getCategories() {
-        return this.http.get(this.url);
+        return this.http.get(this.categoriesUrl);
+    }
+
+    setSession() {
+        return this.http.get(this.homeUrl, { responseType: 'text' });
+    }
+
+    getSubCategories(id: number) {
+        return this.http.get(this.subCategoriesUrl + '?id=' + id);
+    }
+
+    getTests(id: number) {
+        return this.http.get(this.testsUrl + '?id=' + id);
     }
 }

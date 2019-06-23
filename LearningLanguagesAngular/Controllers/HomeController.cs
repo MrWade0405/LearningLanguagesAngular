@@ -31,6 +31,7 @@ namespace LearningLanguages.Controllers
 
         IRepository<TotalScores> _totalScores = new TotalScoresRepository();
 
+        [Route("Home/Index")]
         public IActionResult Index()
         {
             int defaultLang = 3;
@@ -52,12 +53,57 @@ namespace LearningLanguages.Controllers
         [Route("Home/Categories")]
         public async Task<IEnumerable<DTO>> Categories()
         {
-            //int idLangLearn = (int)HttpContext.Session.GetInt32("idLangLearn");
-            //int idLangNative = (int)HttpContext.Session.GetInt32("idLangNative");
+            int idLangLearn = (int)HttpContext.Session.GetInt32("idLangLearn");
+            int idLangNative = (int)HttpContext.Session.GetInt32("idLangNative");
 
-            List<DTO> NativeLearnLangCat = await _categories.GetTranslations(3, 3, null);
+            List<DTO> NativeLearnLangCat = await _categories.GetTranslations(idLangLearn, idLangNative, null);
 
             return NativeLearnLangCat;
+        }
+
+        [Route("Home/Categories/SubCategories")]
+        public async Task<IEnumerable<DTO>> SubCategories(int id)
+        {
+            if (id != 0)
+            {
+                HttpContext.Session.SetInt32("category", id);
+            }
+            else
+            {
+                id = (int)HttpContext.Session.GetInt32("category");
+            }
+
+            int idLangLearn = (int)HttpContext.Session.GetInt32("idLangLearn");
+            int idLangNative = (int)HttpContext.Session.GetInt32("idLangNative");
+
+            List<DTO> NativeLearnLangSubCat = await _categories.GetTranslations(idLangLearn, idLangNative, id);
+
+            return NativeLearnLangSubCat;
+        }
+
+        [Route("Home/Categories/SubCategories/Tests")]
+        public async Task<IEnumerable<DTO>> Tests(int id)
+        {
+            if (id != 0)
+            {
+                HttpContext.Session.SetInt32("subCategory", id);
+            }
+            else
+            {
+                id = (int)HttpContext.Session.GetInt32("subCategory");
+            }
+
+            int idLangLearn = (int)HttpContext.Session.GetInt32("idLangLearn");
+            int idLangNative = (int)HttpContext.Session.GetInt32("idLangNative");
+
+            List<DTO> NativeLearnLangTests = await _tests.GetTranslations(idLangLearn, idLangNative, id);
+
+            Categories category = await _categories.GetItem(id);
+
+            NativeLearnLangTests.First().CategoryId = category.ParentId;
+            NativeLearnLangTests.First().SubCategoryId = category.Id;
+
+            return NativeLearnLangTests;
         }
     }
 }

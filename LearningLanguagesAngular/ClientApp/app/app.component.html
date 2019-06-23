@@ -1,10 +1,5 @@
-﻿<div class="parent">
-    <a class="link" href="#" *ngFor="let cat of categories">
-        <div class="child">
-            <div class="text">
-                <p>{{cat?.wordNativeLang}} ({{cat?.wordLearnLang}})</p>
-            </div>
-            <img src="{{cat?.picture}}" alt="{{cat?.wordNativeLang}}">
-        </div>
-    </a>
+﻿<div class="container body-content">
+    <app-nav></app-nav>
+    <breadcrumb></breadcrumb>
+    <router-outlet></router-outlet>
 </div>

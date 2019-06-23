@@ -12,10 +12,22 @@ import { HttpClient } from '@angular/common/http';
 var DataService = /** @class */ (function () {
     function DataService(http) {
         this.http = http;
-        this.url = "/Home/Categories";
+        this.homeUrl = "/Home/Index";
+        this.categoriesUrl = "/Home/Categories";
+        this.subCategoriesUrl = "/Home/Categories/SubCategories";
+        this.testsUrl = "/Home/Categories/SubCategories/Tests";
     }
     DataService.prototype.getCategories = function () {
-        return this.http.get(this.url);
+        return this.http.get(this.categoriesUrl);
+    };
+    DataService.prototype.setSession = function () {
+        return this.http.get(this.homeUrl, { responseType: 'text' });
+    };
+    DataService.prototype.getSubCategories = function (id) {
+        return this.http.get(this.subCategoriesUrl + '?id=' + id);
+    };
+    DataService.prototype.getTests = function (id) {
+        return this.http.get(this.testsUrl + '?id=' + id);
     };
     DataService = __decorate([
         Injectable(),

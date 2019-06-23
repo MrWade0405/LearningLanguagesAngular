@@ -5,16 +5,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { Component } from '@angular/core';
-var AppComponent = /** @class */ (function () {
-    function AppComponent() {
+var NavComponent = /** @class */ (function () {
+    function NavComponent() {
     }
-    AppComponent = __decorate([
+    NavComponent = __decorate([
         Component({
-            selector: 'app',
-            templateUrl: './app.component.html'
+            selector: 'app-nav',
+            styles: [" \n        .active {color:black;}\n    "],
+            templateUrl: './nav.component.html'
         })
-    ], AppComponent);
-    return AppComponent;
+    ], NavComponent);
+    return NavComponent;
 }());
-export { AppComponent };
-//# sourceMappingURL=app.component.js.map
+export { NavComponent };
+//# sourceMappingURL=nav.component.js.map

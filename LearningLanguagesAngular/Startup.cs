@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
 using Microsoft.AspNetCore.SpaServices.Webpack;
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
 
 namespace LearningLanguagesAngular
 {
@@ -51,7 +52,6 @@ namespace LearningLanguagesAngular
             services.AddDbContext<LearningLanguagesContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("LearningLanguages")));
 
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -73,17 +73,11 @@ namespace LearningLanguagesAngular
             app.UseCookiePolicy();
             app.UseSession();
             app.UseAuthentication();
-
+            
             app.UseMvc();
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
-
-            app.Run(async (context) =>
-            {
-                context.Response.ContentType = "text/html";
-                await context.Response.SendFileAsync(Path.Combine(env.WebRootPath, "index.html"));
-            });
         }
     }
 }
