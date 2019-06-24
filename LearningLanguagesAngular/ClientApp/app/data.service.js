@@ -16,6 +16,7 @@ var DataService = /** @class */ (function () {
         this.categoriesUrl = "/Home/Categories";
         this.subCategoriesUrl = "/Home/Categories/SubCategories";
         this.testsUrl = "/Home/Categories/SubCategories/Tests";
+        this.manualUrl = "/Home/Categories/SubCategories/Tests/Manual";
     }
     DataService.prototype.getCategories = function () {
         return this.http.get(this.categoriesUrl);
@@ -28,6 +29,9 @@ var DataService = /** @class */ (function () {
     };
     DataService.prototype.getTests = function (id) {
         return this.http.get(this.testsUrl + '?id=' + id);
+    };
+    DataService.prototype.getWords = function (id) {
+        return this.http.get(this.manualUrl + '?id=' + id);
     };
     DataService = __decorate([
         Injectable(),

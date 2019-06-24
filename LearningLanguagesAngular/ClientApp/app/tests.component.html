@@ -1,4 +1,8 @@
-﻿<div class="parent">
+﻿<div id="actionLink">
+    <a class="link" [routerLink]="['Manual']" [queryParams]="{'id' : idSubCat}">Manual</a>
+    <a class="link" [routerLink]="['Slideshow']" [queryParams]="{'id' : idSubCat}">Slideshow</a>
+</div>
+<div class="parent">
     <a class="link" href="#" *ngFor="let test of tests">
         <div class="child">
             <div class="text">

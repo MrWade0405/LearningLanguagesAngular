@@ -98,12 +98,36 @@ namespace LearningLanguages.Controllers
 
             List<DTO> NativeLearnLangTests = await _tests.GetTranslations(idLangLearn, idLangNative, id);
 
-            Categories category = await _categories.GetItem(id);
-
-            NativeLearnLangTests.First().CategoryId = category.ParentId;
-            NativeLearnLangTests.First().SubCategoryId = category.Id;
-
             return NativeLearnLangTests;
+        }
+
+        [Route("Home/Categories/SubCategories/Tests/Manual")]
+        public async Task<IEnumerable<DTO>> Manual(int id)
+        {
+            if (id != 0)
+            {
+                HttpContext.Session.SetInt32("subCategory", id);
+            }
+            else
+            {
+                id = (int)HttpContext.Session.GetInt32("subCategory");
+            }
+
+            int idLangLearn = (int)HttpContext.Session.GetInt32("idLangLearn");
+            int idLangNative = (int)HttpContext.Session.GetInt32("idLangNative");
+            string enableNativeLang = HttpContext.Session.GetString("enableNativeLang");
+            string enableSound = HttpContext.Session.GetString("enableSound");
+            string enablePronounceNativeLang = HttpContext.Session.GetString("enablePronounceNativeLang");
+            string enablePronounceLearnLang = HttpContext.Session.GetString("enablePronounceLearnLang");
+
+            List<DTO> NativeLearnLangWords = await _words.GetTranslations(idLangLearn, idLangNative, id);
+
+            NativeLearnLangWords.First().EnableNativeLang = enableNativeLang;
+            NativeLearnLangWords.First().EnableSound = enableSound;
+            NativeLearnLangWords.First().EnablePronounceNativeLang = enablePronounceNativeLang;
+            NativeLearnLangWords.First().EnablePronounceLearnLang = enablePronounceLearnLang;
+
+            return NativeLearnLangWords;
         }
     }
 }

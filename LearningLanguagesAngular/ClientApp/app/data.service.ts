@@ -9,6 +9,7 @@ export class DataService {
     private categoriesUrl = "/Home/Categories";
     private subCategoriesUrl = "/Home/Categories/SubCategories";
     private testsUrl = "/Home/Categories/SubCategories/Tests";
+    private manualUrl = "/Home/Categories/SubCategories/Tests/Manual";
 
     constructor(private http: HttpClient) {
     }
@@ -27,5 +28,9 @@ export class DataService {
 
     getTests(id: number) {
         return this.http.get(this.testsUrl + '?id=' + id);
+    }
+
+    getWords(id: number) {
+        return this.http.get(this.manualUrl + '?id=' + id);
     }
 }
