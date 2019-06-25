@@ -14,6 +14,7 @@ import { TestsComponent } from './tests.component';
 import { BreadcrumbComponent } from './breadcrumb.component';
 import { ManualComponent } from './manual.component';
 import { SlideshowComponent } from './slideshow.component';
+import { TestComponent } from './test.component';
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent },
@@ -22,13 +23,14 @@ const appRoutes: Routes = [
     { path: 'Home/Categories/SubCategories/Tests', component: TestsComponent },
     { path: 'Home/Categories/SubCategories/Tests/Manual', component: ManualComponent },
     { path: 'Home/Categories/SubCategories/Tests/Slideshow', component: SlideshowComponent },
+    { path: 'Home/Categories/SubCategories/Tests/Test', component: TestComponent },
     { path: '**', redirectTo: '/' }
 ];
 
 @NgModule({
     imports: [BrowserModule, FormsModule, HttpClientModule, RouterModule.forRoot(appRoutes, { useHash: true }), NgbModule],
     declarations: [AppComponent, HomeComponent, CategoriesComponent, SubCategoriesComponent, TestsComponent,
-                   NavComponent, BreadcrumbComponent, ManualComponent, SlideshowComponent],
+                   NavComponent, BreadcrumbComponent, ManualComponent, SlideshowComponent, TestComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

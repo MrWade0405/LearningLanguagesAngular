@@ -13,45 +13,66 @@ import { DataService } from './data.service';
 import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 var SlideshowComponent = /** @class */ (function () {
     function SlideshowComponent(dataService, activeRoute, config) {
-        var _this = this;
+        var _this_1 = this;
         this.dataService = dataService;
         this.config = config;
-        this.duration = 0;
-        config.interval = 3000;
+        this.duration = 500;
+        this.iterator = 1;
         config.showNavigationArrows = false;
         config.keyboard = false;
         config.wrap = true;
         config.pauseOnHover = false;
         this.subscription = activeRoute.queryParams.subscribe(function (queryParam) {
-            _this.idSubCat = queryParam['id'];
+            _this_1.idSubCat = queryParam['id'];
         });
     }
     SlideshowComponent.prototype.ngOnInit = function () {
         this.loadWords();
     };
     SlideshowComponent.prototype.loadWords = function () {
-        var _this = this;
+        var _this_1 = this;
         this.dataService.getWords(this.idSubCat)
-            .subscribe(function (data) { return _this.words = data; });
+            .subscribe(function (data) { return _this_1.words = data; });
     };
     SlideshowComponent.prototype.onSlide = function (slideData) {
-        var listAudio;
-        if (this.words[slideData.current].enableSound) {
+        this.duration = 500;
+        var listAudio = [];
+        if (this.words[0].enableSound) {
             var sound = new Audio();
-            sound.src = this.words[slideData.current].sound;
+            var word = this.words[this.iterator];
+            if (word) {
+                sound.src = word.sound;
+            }
             listAudio.push(sound);
         }
-        if (this.words[slideData.current].enablePronounceLearnLang) {
+        if (this.words[0].enablePronounceLearnLang) {
             var pronounceLearn = new Audio();
-            pronounceLearn.src = this.words[slideData.current].pronounceLearn;
+            var word = this.words[this.iterator];
+            if (word) {
+                pronounceLearn.src = word.pronounceLearn;
+            }
             listAudio.push(pronounceLearn);
         }
-        if (this.words[slideData.current].enablePronounceNativeLang) {
+        if (this.words[0].enablePronounceNativeLang) {
             var pronounceNative = new Audio();
-            pronounceNative.src = this.words[slideData.current].pronounceNative;
+            var word = this.words[this.iterator];
+            if (word) {
+                pronounceNative.src = word.pronounceNative;
+            }
             listAudio.push(pronounceNative);
         }
         var _loop_1 = function (i) {
+            _this = this_1;
+            listAudio[i].addEventListener('loadedmetadata', function () {
+                _this.duration += listAudio[i].duration * 1000;
+            });
+        };
+        var this_1 = this, _this;
+        for (var i = 0; i < listAudio.length; ++i) {
+            _loop_1(i);
+        }
+        console.log(this.duration);
+        var _loop_2 = function (i) {
             if (i === 0) {
                 listAudio[i].play();
             }
@@ -62,12 +83,14 @@ var SlideshowComponent = /** @class */ (function () {
             }
         };
         for (var i = 0; i < listAudio.length; i++) {
-            _loop_1(i);
+            _loop_2(i);
         }
-        for (var i = 0; i < listAudio.length; ++i) {
-            this.duration += listAudio[i].duration;
+        if (this.iterator == this.words.length - 1) {
+            this.iterator = 0;
         }
-        this.config.interval = this.duration;
+        else {
+            this.iterator++;
+        }
     };
     SlideshowComponent = __decorate([
         Component({

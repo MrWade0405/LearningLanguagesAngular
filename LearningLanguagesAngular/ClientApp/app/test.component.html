@@ -1,0 +1,50 @@
+﻿<div id="result">
+    <b [ngClass]="{'text-success' : isCorrect && questionNumber != 1, 'text-danger' : !isCorrect && questionNumber != 1}">Score: {{totalResult}} Question {{questionNumber}}/{{totalQuestions}}</b>
+</div>
+<div id="test" *ngIf="randomWords">
+    <div class="words" *ngIf="idTest == 1 || idTest == 2 || idTest == 4">
+        <label class="word" *ngFor="let word of randomWords; let i = index">
+            <input type="radio" name="test" value="{{i}}" (change)="changeAnswer($event.target)">
+            <img src="{{randomWords[randomTestWordsId[i] - 1]?.picture}}" width="256" height="256" alt="{{randomWords[randomTestWordsId[i] - 1]?.wordLearnLang}}">
+        </label>
+    </div>
+
+    <div class="words" *ngIf="idTest == 3">
+        <div *ngFor="let word of randomWords; let i = index">
+            <input type="radio" name="test" value="{{i}}" id="{{i + 1}}" (change)="changeAnswer($event.target)" />
+            <label class="word btn btn-light" for="{{i + 1}}">{{randomWords[randomTestWordsId[i] - 1]?.wordLearnLang}}</label>
+        </div>
+    </div>
+
+    <div class="words" *ngIf="idTest == 8 || idTest == 9">
+        <div *ngFor="let word of randomWords; let i = index">
+            <input type="radio" name="test" value="{{i}}" id="{{i + 1}}" (change)="changeAnswer($event.target)" />
+            <label class="word btn btn-light" for="{{i + 1}}">{{randomWords[randomTestWordsId[i] - 1]?.wordNativeLang}}</label>
+        </div>
+    </div>
+
+    <div class="QA" *ngIf="idTest != 5">
+        <h1 *ngIf="idTest == 1 || idTest == 2">{{randomWords[0]?.wordLearnLang}}</h1>
+        <img *ngIf="idTest == 3" src="{{randomWords[0]?.picture}}" alt="{{randomWords[0]?.wordLearnLang}}">
+        <h1 *ngIf="idTest == 8">{{randomWords[0]?.wordLearnLang}}</h1>
+        <audio *ngIf="idTest == 4 || idTest  == 9" controls>
+            <source src="{{randomWords[0]?.pronounceLearn}}" type="audio/mpeg" />
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+    <div class="name" *ngIf="idTest == 5">
+        <p>{{randomWords[0]?.wordLearnLang}}</p>
+        <img src="{{randomWords[correctAnswer - 1]?.picture}}" alt="{{randomWords[correctAnswer - 1]?.wordNativeLang}}">
+    </div>
+</div>
+<div class="buttonSubmit" *ngIf="idTest == 5">
+    <button type="submit" class="btn btn-success" value="1" (click)="check($event)">True</button>
+    <button type="submit" class="btn btn-danger" value="2" (click)="check($event)">False</button>
+</div>
+<div *ngIf="notSelect && idTest != 5" id="error" class="alert alert-danger" role="alert">
+    Please select an item!
+</div>
+<div class="buttonSubmit" *ngIf="idTest != 5">
+    <button type="submit" class="btn btn-success" (click)="check()">Submit</button>
+</div>

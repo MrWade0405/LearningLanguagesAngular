@@ -77,7 +77,6 @@ export class SlideshowComponent implements OnInit {
                 _this.duration += listAudio[i].duration * 1000;
             });
         }
-        console.log(this.duration);
 
         for (let i = 0; i < listAudio.length; i++) {
             if (i === 0) {
