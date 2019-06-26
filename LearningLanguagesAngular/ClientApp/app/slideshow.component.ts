@@ -51,7 +51,9 @@ export class SlideshowComponent implements OnInit {
             if (word) {
                 sound.src = word.sound;
             }
-            listAudio.push(sound);
+            if (!sound.src.includes('null')) {
+                listAudio.push(sound);
+            }
         }
 
         if (this.words[0].enablePronounceLearnLang) {

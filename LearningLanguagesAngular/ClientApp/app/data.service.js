@@ -33,9 +33,10 @@ var DataService = /** @class */ (function () {
     DataService.prototype.getWords = function (id) {
         return this.http.get(this.manualUrl + '?id=' + id);
     };
+    var _a;
     DataService = __decorate([
         Injectable(),
-        __metadata("design:paramtypes", [HttpClient])
+        __metadata("design:paramtypes", [typeof (_a = typeof HttpClient !== "undefined" && HttpClient) === "function" ? _a : Object])
     ], DataService);
     return DataService;
 }());

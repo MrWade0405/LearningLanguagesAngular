@@ -31,6 +31,7 @@ var ManualComponent = /** @class */ (function () {
         this.dataService.getWords(this.idSubCat)
             .subscribe(function (data) { return _this.words = data; });
     };
+    var _a, _b;
     ManualComponent = __decorate([
         Component({
             selector: 'manual',
@@ -38,7 +39,7 @@ var ManualComponent = /** @class */ (function () {
             providers: [DataService, NgbCarouselConfig],
             styleUrls: ['./manual.component.css']
         }),
-        __metadata("design:paramtypes", [DataService, ActivatedRoute, NgbCarouselConfig])
+        __metadata("design:paramtypes", [DataService, typeof (_a = typeof ActivatedRoute !== "undefined" && ActivatedRoute) === "function" ? _a : Object, typeof (_b = typeof NgbCarouselConfig !== "undefined" && NgbCarouselConfig) === "function" ? _b : Object])
     ], ManualComponent);
     return ManualComponent;
 }());

@@ -26,6 +26,7 @@ var SubCategoriesComponent = /** @class */ (function () {
         this.dataService.getSubCategories(this.idCat)
             .subscribe(function (data) { return _this.subCategories = data; });
     };
+    var _a;
     SubCategoriesComponent = __decorate([
         Component({
             selector: 'sub-categories',
@@ -33,7 +34,7 @@ var SubCategoriesComponent = /** @class */ (function () {
             providers: [DataService],
             styleUrls: ['./catTestsSubCat.component.css']
         }),
-        __metadata("design:paramtypes", [DataService, ActivatedRoute])
+        __metadata("design:paramtypes", [DataService, typeof (_a = typeof ActivatedRoute !== "undefined" && ActivatedRoute) === "function" ? _a : Object])
     ], SubCategoriesComponent);
     return SubCategoriesComponent;
 }());

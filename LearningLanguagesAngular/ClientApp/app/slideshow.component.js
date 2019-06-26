@@ -71,7 +71,6 @@ var SlideshowComponent = /** @class */ (function () {
         for (var i = 0; i < listAudio.length; ++i) {
             _loop_1(i);
         }
-        console.log(this.duration);
         var _loop_2 = function (i) {
             if (i === 0) {
                 listAudio[i].play();
@@ -92,6 +91,7 @@ var SlideshowComponent = /** @class */ (function () {
             this.iterator++;
         }
     };
+    var _a, _b;
     SlideshowComponent = __decorate([
         Component({
             selector: 'slideshow',
@@ -99,7 +99,7 @@ var SlideshowComponent = /** @class */ (function () {
             providers: [DataService, NgbCarouselConfig],
             styleUrls: ['./slideshow.component.css']
         }),
-        __metadata("design:paramtypes", [DataService, ActivatedRoute, NgbCarouselConfig])
+        __metadata("design:paramtypes", [DataService, typeof (_a = typeof ActivatedRoute !== "undefined" && ActivatedRoute) === "function" ? _a : Object, typeof (_b = typeof NgbCarouselConfig !== "undefined" && NgbCarouselConfig) === "function" ? _b : Object])
     ], SlideshowComponent);
     return SlideshowComponent;
 }());

@@ -34,6 +34,18 @@ export class TestComponent implements OnInit {
     textAnswer: string = '';
     isCorrect: boolean;
     notSelect: boolean = true;
+    result: number = 0;
+    numberQA: number = 0;
+    randomWordsFor10: DTO[] = [];
+    questionNumberFor10: number = 0;
+    checkboxesLeft: boolean[] = [];
+    checkboxesRight: boolean[] = [];
+    randomWordsCopyLeft: DTO[] = [];
+    randomWordsCopyRight: DTO[] = [];
+    selectWordIdLeftFor10: number = -1; 
+    selectWordIdRightFor10: number = -1; 
+    randomWordsAnswerLeft: DTO[] = [];
+    randomWordsAnswerRight: DTO[] = [];
 
     constructor(private dataService: DataService, activeRoute: ActivatedRoute) {
         this.subscription = activeRoute.queryParams.subscribe(
@@ -58,8 +70,16 @@ export class TestComponent implements OnInit {
                 this.firstId = data[0].id;
                 this.lastId = data[data.length - 1].id;
                 this.words = data.sort(this.compareRandom);
+                this.randomWordsFor10 = this.words;
                 this.totalQuestions = data.length;
-                this.check();
+                if (this.idTest == 10) {
+                    this.GetExtra();
+                    this.totalQuestions = this.randomWordsFor10.length;
+                    this.check(false);
+                }
+                else {
+                    this.check();
+                }
             });
     }
 
@@ -99,6 +119,30 @@ export class TestComponent implements OnInit {
 
     check(event: any = null) {
 
+        if (this.idTest == 10) {
+            this.randomWordsAnswerLeft = [];
+            this.randomWordsAnswerRight = [];
+
+            if (this.questionNumber == 0) {
+                this.notSelect = false;
+            }
+            this.questionNumberFor10 = Math.floor((this.questionNumber + this.countOptions) / this.countOptions);
+            if (event == false) {
+                this.numberQA = 0;
+                if (this.questionNumber == this.totalQuestions) {
+                    return;
+                }
+
+                this.GetTest();
+
+                this.randomTestWordsId.sort(this.compareRandom);
+            }
+
+            this.totalResult += this.result;
+
+            this.result = 0;
+        }
+
         if ((this.idTest == 6 || this.idTest == 7)) {
 
             this.notSelect = this.textAnswer.trim() == '';
@@ -135,7 +179,7 @@ export class TestComponent implements OnInit {
             this.first = false;
         }
 
-        if (this.idTest != 5 && this.idTest != 6 && this.idTest != 7) {
+        if (this.idTest != 5 && this.idTest != 6 && this.idTest != 7 && this.idTest != 10) {
             console.log(this.checkboxes);
             this.notSelect = this.checkboxes.length == 0;
 
@@ -166,14 +210,16 @@ export class TestComponent implements OnInit {
             return;
         }
 
-        this.questionNumber++;
+        if (this.idTest != 10) {
+            this.questionNumber++;
+        }
 
         if (this.idTest == 6 || this.idTest == 7) {
             this.GetTestFor6_7();
 
             this.correctAnswer = this.randomWord.wordLearnLang;
         }
-        else {
+        else if (this.idTest != 10) {
             this.randomTestWordsId.sort(this.compareRandom);
 
             this.GetTestRandom();
@@ -191,7 +237,103 @@ export class TestComponent implements OnInit {
         this.checkboxes[eventTarget.getAttribute('value')] = eventTarget.checked;
     }
 
+    changeAnswerLeft(eventTarget: any) {
+        this.checkboxesLeft = [];
+        this.checkboxesLeft[eventTarget.getAttribute('value')] = eventTarget.checked;
+        this.selectWordIdLeftFor10 = +eventTarget.getAttribute('id').substring(10, 11);
+    }
+
+    changeAnswerRight(eventTarget: any) {
+        this.checkboxesRight = [];
+        this.checkboxesRight[eventTarget.getAttribute('value')] = eventTarget.checked;
+        this.selectWordIdRightFor10 = +eventTarget.getAttribute('id').substring(11, 12);
+    }
+
     GetTestFor6_7() {
         this.randomWord = this.words[this.questionNumber - 1];
+    }
+
+    GetExtra() {
+        var remainderOfDivision = this.randomWordsFor10.length % this.countOptions;
+
+        if (remainderOfDivision == 0) return;
+
+        var randomIds = [];
+
+        for (let i = this.firstId; i <= this.lastId; ++i) {
+            randomIds.push(i);
+        }
+
+        for (let i = 0; i < remainderOfDivision; ++i) {
+            randomIds.splice(randomIds.indexOf(this.randomWordsFor10[this.randomWordsFor10.length - i - 1].id), 1);
+        }
+
+        randomIds.sort(this.compareRandom);
+
+        for (let i = 0; i < 4 - remainderOfDivision; ++i) {
+            this.randomWordsFor10.push(this.words[i]);
+        }
+    }
+
+    cancel() {
+        this.notSelect = false;
+        this.questionNumber -= this.result;
+        this.result = 0;
+        this.numberQA = 0;
+        this.check(true);
+        this.randomWordsCopyLeft = Object.assign([], this.randomWords);
+        this.randomWordsCopyRight = Object.assign([], this.randomWords);
+        this.randomWordsAnswerLeft = [];
+        this.randomWordsAnswerRight = [];
+    }
+
+    GetTest() {
+        for (let i = 0; i < this.countOptions; i++) {
+            this.randomWords[i] = this.randomWordsFor10[0];
+            this.randomWordsCopyLeft[i] = this.randomWordsFor10[0];
+            this.randomWordsCopyRight[i] = this.randomWordsFor10[0];
+            this.randomWordsFor10.splice(0, 1);
+        }
+    }
+
+    next() {
+
+        this.notSelect = false;
+
+        var isCorrectAnswer: boolean = false;
+
+        if ((this.checkboxesLeft.indexOf(true) == this.checkboxesRight.indexOf(true)) && (this.checkboxesLeft.indexOf(true) != -1)) {
+            isCorrectAnswer = true;
+        }
+
+        console.log(isCorrectAnswer);
+        console.log(this.checkboxesLeft);
+        console.log(this.checkboxesRight);
+        if (this.checkboxesLeft.indexOf(true) != -1 && this.checkboxesRight.indexOf(true) != -1) {
+            this.questionNumber++;
+
+            this.checkboxesLeft = [];
+            this.checkboxesRight = [];
+            this.numberQA++;
+
+            console.log(this.selectWordIdLeftFor10);
+            console.log(this.selectWordIdRightFor10);
+
+            this.randomWordsAnswerLeft.push(this.randomWordsCopyLeft[this.selectWordIdLeftFor10]);
+            this.randomWordsAnswerRight.push(this.randomWordsCopyRight[this.selectWordIdRightFor10]);
+
+            delete this.randomWordsCopyLeft[this.selectWordIdLeftFor10];
+            delete this.randomWordsCopyRight[this.selectWordIdRightFor10];
+
+            if (isCorrectAnswer) {
+                this.questionNumberFor10 = Math.floor((this.questionNumber + this.countOptions - 1) / this.countOptions);
+                this.result++;
+            }
+        }
+        else {
+            this.notSelect = true;
+
+            return;
+        }
     }
 }

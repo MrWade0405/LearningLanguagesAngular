@@ -26,6 +26,7 @@ var TestsComponent = /** @class */ (function () {
         this.dataService.getTests(this.idSubCat)
             .subscribe(function (data) { return _this.tests = data; });
     };
+    var _a;
     TestsComponent = __decorate([
         Component({
             selector: 'tests',
@@ -33,7 +34,7 @@ var TestsComponent = /** @class */ (function () {
             providers: [DataService],
             styleUrls: ['./catTestsSubCat.component.css']
         }),
-        __metadata("design:paramtypes", [DataService, ActivatedRoute])
+        __metadata("design:paramtypes", [DataService, typeof (_a = typeof ActivatedRoute !== "undefined" && ActivatedRoute) === "function" ? _a : Object])
     ], TestsComponent);
     return TestsComponent;
 }());
