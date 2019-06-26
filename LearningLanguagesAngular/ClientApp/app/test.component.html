@@ -1,6 +1,7 @@
 ﻿<div id="result">
     <b [ngClass]="{'text-success' : isCorrect && questionNumber != 1, 'text-danger' : !isCorrect && questionNumber != 1}">Score: {{totalResult}} Question {{questionNumber}}/{{totalQuestions}}</b>
 </div>
+
 <div id="test" *ngIf="randomWords">
     <div class="words" *ngIf="idTest == 1 || idTest == 2 || idTest == 4">
         <label class="word" *ngFor="let word of randomWords; let i = index">
@@ -23,7 +24,7 @@
         </div>
     </div>
 
-    <div class="QA" *ngIf="idTest != 5">
+    <div class="QA" *ngIf="idTest != 5 && idTest != 6 && idTest != 7">
         <h1 *ngIf="idTest == 1 || idTest == 2">{{randomWords[0]?.wordLearnLang}}</h1>
         <img *ngIf="idTest == 3" src="{{randomWords[0]?.picture}}" alt="{{randomWords[0]?.wordLearnLang}}">
         <h1 *ngIf="idTest == 8">{{randomWords[0]?.wordLearnLang}}</h1>
@@ -37,14 +38,37 @@
         <p>{{randomWords[0]?.wordLearnLang}}</p>
         <img src="{{randomWords[correctAnswer - 1]?.picture}}" alt="{{randomWords[correctAnswer - 1]?.wordNativeLang}}">
     </div>
+
+    <div class="image" *ngIf="idTest == 6">
+        <img src="{{randomWord?.picture}}" alt="{{randomWord?.wordNativeLang}}">
+    </div>
+
+    <div class="audio" *ngIf="idTest == 7">
+        <audio controls>
+            <source src="{{randomWord?.pronounceLearn}}" type="audio/mpeg" />
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+    <div class="form-group w-50" *ngIf="idTest == 6 || idTest ==  7">
+        <label for="resultInput">Your answer</label>
+        <input type="text" class="form-control" id="resultInput" placeholder="Enter answer" [(ngModel)]="textAnswer">
+    </div>
 </div>
+
 <div class="buttonSubmit" *ngIf="idTest == 5">
     <button type="submit" class="btn btn-success" value="1" (click)="check($event)">True</button>
     <button type="submit" class="btn btn-danger" value="2" (click)="check($event)">False</button>
 </div>
-<div *ngIf="notSelect && idTest != 5" id="error" class="alert alert-danger" role="alert">
+
+<div *ngIf="notSelect && idTest != 5 && idTest != 6 && idTest != 7" id="error" class="alert alert-danger" role="alert">
     Please select an item!
 </div>
+
+<div *ngIf="notSelect && (idTest == 6 || idTest == 7)" id="error" class="alert alert-danger" role="alert">
+    Please fill out the field!
+</div>
+
 <div class="buttonSubmit" *ngIf="idTest != 5">
     <button type="submit" class="btn btn-success" (click)="check()">Submit</button>
 </div>

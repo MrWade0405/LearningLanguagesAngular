@@ -19,7 +19,7 @@ export class TestComponent implements OnInit {
 
     words: DTO[];
 
-    correctAnswer: number;
+    correctAnswer: any;
     countOptions: number = 4;
     randomTestWordsId: number[] = [1, 2, 3, 4];
     totalResult: number = 0;
@@ -29,7 +29,9 @@ export class TestComponent implements OnInit {
     firstId: number;
     lastId: number; 
     randomWords: DTO[] = [];
+    randomWord: DTO;
     checkboxes: boolean[] = [];
+    textAnswer: string = '';
     isCorrect: boolean;
     notSelect: boolean = true;
 
@@ -96,20 +98,44 @@ export class TestComponent implements OnInit {
     }
 
     check(event: any = null) {
-        console.log(event);
-        if ((this.idTest == 5) && (event != null) && (event.target.value == this.correctAnswer)) {
-            this.totalResult++;
-            this.isCorrect = true;
+
+        if ((this.idTest == 6 || this.idTest == 7)) {
+
+            this.notSelect = this.textAnswer.trim() == '';
+
+            if (this.questionNumber == 0) {
+                this.notSelect = false;
+            }
+
+            if (this.correctAnswer == this.textAnswer) {
+                this.totalResult++;
+                this.isCorrect = true;
+            }
+            else if (this.notSelect) {
+                return;
+            }
+            else {
+                this.isCorrect = false;
+            }
+
+            this.textAnswer = '';
         }
-        else {
-            this.isCorrect = false;
+
+        if (this.idTest == 5) {
+            if ((event != null) && (event.target.value == this.correctAnswer)) {
+                this.totalResult++;
+                this.isCorrect = true;
+            }
+            else {
+                this.isCorrect = false;
+            }
         }
 
         if (this.questionNumber == 1) {
             this.first = false;
         }
 
-        if (this.idTest != 5) {
+        if (this.idTest != 5 && this.idTest != 6 && this.idTest != 7) {
             console.log(this.checkboxes);
             this.notSelect = this.checkboxes.length == 0;
 
@@ -142,13 +168,20 @@ export class TestComponent implements OnInit {
 
         this.questionNumber++;
 
-        this.randomTestWordsId.sort(this.compareRandom);
+        if (this.idTest == 6 || this.idTest == 7) {
+            this.GetTestFor6_7();
 
-        this.GetTestRandom();
+            this.correctAnswer = this.randomWord.wordLearnLang;
+        }
+        else {
+            this.randomTestWordsId.sort(this.compareRandom);
 
-        for (let i = 0; i < Object.keys(this.randomWords).length; i++) {
-            if (this.randomTestWordsId[i] - 1 == 0) {
-                this.correctAnswer = i + 1;
+            this.GetTestRandom();
+
+            for (let i = 0; i < Object.keys(this.randomWords).length; i++) {
+                if (this.randomTestWordsId[i] - 1 == 0) {
+                    this.correctAnswer = i + 1;
+                }
             }
         }
     }
@@ -156,5 +189,9 @@ export class TestComponent implements OnInit {
     changeAnswer(eventTarget: any) {
         this.checkboxes = [];
         this.checkboxes[eventTarget.getAttribute('value')] = eventTarget.checked;
+    }
+
+    GetTestFor6_7() {
+        this.randomWord = this.words[this.questionNumber - 1];
     }
 }
