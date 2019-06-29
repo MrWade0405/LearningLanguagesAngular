@@ -26,15 +26,13 @@ var TestsComponent = /** @class */ (function () {
         this.dataService.getTests(this.idSubCat)
             .subscribe(function (data) { return _this.tests = data; });
     };
-    var _a;
     TestsComponent = __decorate([
         Component({
             selector: 'tests',
             templateUrl: './tests.component.html',
-            providers: [DataService],
-            styleUrls: ['./catTestsSubCat.component.css']
+            styleUrls: ['./catTestsSubCat.component.scss']
         }),
-        __metadata("design:paramtypes", [DataService, typeof (_a = typeof ActivatedRoute !== "undefined" && ActivatedRoute) === "function" ? _a : Object])
+        __metadata("design:paramtypes", [DataService, ActivatedRoute])
     ], TestsComponent);
     return TestsComponent;
 }());

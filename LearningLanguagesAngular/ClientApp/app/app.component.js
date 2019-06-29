@@ -5,13 +5,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { Component } from '@angular/core';
+import { DataService } from './data.service';
 var AppComponent = /** @class */ (function () {
     function AppComponent() {
     }
     AppComponent = __decorate([
         Component({
             selector: 'app',
-            templateUrl: './app.component.html'
+            templateUrl: './app.component.html',
+            providers: [DataService]
         })
     ], AppComponent);
     return AppComponent;

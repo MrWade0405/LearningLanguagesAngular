@@ -1,0 +1,30 @@
+﻿<h2>Login</h2>
+<ngb-alert [dismissible]="false" type="danger" *ngIf="errorMessage != ''">
+    {{errorMessage}}
+</ngb-alert>
+<form [formGroup]="loginForm" (ngSubmit)="loginPost()" class="w-50 p-3">
+    <div class="form-group">
+        <label>Username</label><br />
+        <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+            <div *ngIf="f.email.errors.required">Username is required</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Password</label>
+        <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+            <div *ngIf="f.password.errors.required">Password is required</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Remember me</label>
+        <input type="checkbox" formControlName="rememberMe" class="form-control" />
+    </div>
+    <div class="form-group">
+        <button class="btn btn-primary">Login</button>
+    </div>
+    <div>
+        <a class="nav-link" routerLink="../../Account/Register">Register as a new user</a>
+    </div>
+</form>

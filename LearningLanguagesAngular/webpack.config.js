@@ -32,6 +32,11 @@ module.exports = {
                 test: /\.css$/,
                 include: path.resolve(__dirname, 'ClientApp/app'),
                 loaders: ["to-string-loader", "css-loader"]
+            }, {
+                test: /\.scss$/,
+                exclude: /node_modules/,
+                include: path.resolve(__dirname, 'ClientApp/app'),
+                loaders: ['to-string-loader', 'css-loader', 'sass-loader']
             }
         ]
     },

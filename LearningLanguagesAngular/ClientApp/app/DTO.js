@@ -1,6 +1,9 @@
 var DTO = /** @class */ (function () {
-    function DTO(id, wordNativeLang, wordLearnLang, picture, enableNativeLang, enableSound, enablePronounceNativeLang, enablePronounceLearnLang, sound, pronounceLearn, pronounceNative, categoryId) {
+    function DTO(id, idLangNative, idLangLearn, languagesList, wordNativeLang, wordLearnLang, picture, enableNativeLang, enableSound, enablePronounceNativeLang, enablePronounceLearnLang, sound, pronounceLearn, pronounceNative, categoryId, subCategoryId) {
         this.id = id;
+        this.idLangNative = idLangNative;
+        this.idLangLearn = idLangLearn;
+        this.languagesList = languagesList;
         this.wordNativeLang = wordNativeLang;
         this.wordLearnLang = wordLearnLang;
         this.picture = picture;
@@ -12,6 +15,7 @@ var DTO = /** @class */ (function () {
         this.pronounceLearn = pronounceLearn;
         this.pronounceNative = pronounceNative;
         this.categoryId = categoryId;
+        this.subCategoryId = subCategoryId;
     }
     return DTO;
 }());

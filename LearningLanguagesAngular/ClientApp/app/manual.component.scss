@@ -9,13 +9,17 @@
     width: 512px;
     height: 512px;
     margin: auto;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+    }
 }
 
-.image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center center;
+.carousel-control-prev, .carousel-control-next {
+    position: absolute;
 }
 
 #slideshow {
@@ -31,4 +35,3 @@
     display: flex;
     justify-content: center;
 }
-

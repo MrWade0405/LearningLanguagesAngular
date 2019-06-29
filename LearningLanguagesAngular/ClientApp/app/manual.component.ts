@@ -8,8 +8,8 @@ import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 @Component({
     selector: 'manual',
     templateUrl: './manual.component.html',
-    providers: [DataService, NgbCarouselConfig],
-    styleUrls: ['./manual.component.css']
+    providers: [NgbCarouselConfig],
+    styleUrls: ['./manual.component.scss']
 })
 export class ManualComponent implements OnInit {
 

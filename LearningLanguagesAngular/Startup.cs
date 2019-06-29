@@ -52,6 +52,9 @@ namespace LearningLanguagesAngular
             services.AddDbContext<LearningLanguagesContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("LearningLanguages")));
 
+            services.AddIdentity<Users, IdentityRole>()
+                .AddEntityFrameworkStores<LearningLanguagesContext>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

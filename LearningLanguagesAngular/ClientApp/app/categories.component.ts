@@ -5,8 +5,7 @@ import { DTO } from './DTO';
 @Component({
     selector: 'categories',
     templateUrl: './categories.component.html',
-    providers: [DataService],
-    styleUrls: ['./catTestsSubCat.component.css']
+    styleUrls: ['./catTestsSubCat.component.scss']
 })
 export class CategoriesComponent implements OnInit {
 

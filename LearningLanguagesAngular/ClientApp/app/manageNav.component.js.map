@@ -1,0 +1,1 @@
+{"version":3,"file":"manageNav.component.js","sourceRoot":"","sources":["manageNav.component.ts"],"names":[],"mappings":";;;;;;AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,eAAe,CAAC;AAS1C;IAAA;IAAkC,CAAC;IAAtB,kBAAkB;QAP9B,SAAS,CAAC;YACP,QAAQ,EAAE,YAAY;YACtB,MAAM,EAAE,CAAC,yCAER,CAAC;YACF,WAAW,EAAE,4BAA4B;SAC5C,CAAC;OACW,kBAAkB,CAAI;IAAD,yBAAC;CAAA,AAAnC,IAAmC;SAAtB,kBAAkB"}

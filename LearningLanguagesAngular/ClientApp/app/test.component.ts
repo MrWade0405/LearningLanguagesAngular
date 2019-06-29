@@ -7,8 +7,7 @@ import { DTO } from './DTO';
 @Component({
     selector: 'test',
     templateUrl: './test.component.html',
-    providers: [DataService],
-    styleUrls: ['./test.component.css']
+    styleUrls: ['./test.component.scss']
 })
 export class TestComponent implements OnInit {
 
@@ -46,11 +45,12 @@ export class TestComponent implements OnInit {
     selectWordIdRightFor10: number = -1; 
     randomWordsAnswerLeft: DTO[] = [];
     randomWordsAnswerRight: DTO[] = [];
+    finishedTest: boolean = false;
+    isUser: boolean;
 
     constructor(private dataService: DataService, activeRoute: ActivatedRoute) {
         this.subscription = activeRoute.queryParams.subscribe(
             (queryParam: any) => {
-                this.idSubCat = queryParam['id'];
                 this.idTest = queryParam['idTest'];
                 if (this.idTest == 1 || this.idTest == 5) {
                     this.countOptions = 2;
@@ -72,6 +72,7 @@ export class TestComponent implements OnInit {
                 this.words = data.sort(this.compareRandom);
                 this.randomWordsFor10 = this.words;
                 this.totalQuestions = data.length;
+                this.idSubCat = data[0].subCategoryId;
                 if (this.idTest == 10) {
                     this.GetExtra();
                     this.totalQuestions = this.randomWordsFor10.length;
@@ -130,6 +131,16 @@ export class TestComponent implements OnInit {
             if (event == false) {
                 this.numberQA = 0;
                 if (this.questionNumber == this.totalQuestions) {
+                    this.finishedTest = true;
+
+                    var DTOTest = {
+                        totalResult: this.totalResult,
+                        subCategoryId: this.idSubCat,
+                        testNumber: this.idTest
+                    };
+
+                    this.dataService.setResultTest(DTOTest).subscribe((data: boolean) => this.isUser = data);
+
                     return;
                 }
 
@@ -206,6 +217,15 @@ export class TestComponent implements OnInit {
         }
 
         if (this.questionNumber == this.totalQuestions) {
+            this.finishedTest = true;
+
+            var DTOTest = {
+                totalResult: this.totalResult, 
+                subCategoryId: this.idSubCat,
+                testNumber: this.idTest
+            };
+
+            this.dataService.setResultTest(DTOTest).subscribe((data: boolean) => this.isUser = data);
 
             return;
         }
@@ -335,5 +355,9 @@ export class TestComponent implements OnInit {
 
             return;
         }
+    }
+
+    again() {
+        window.location.reload();
     }
 }

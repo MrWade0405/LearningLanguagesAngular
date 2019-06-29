@@ -31,15 +31,14 @@ var ManualComponent = /** @class */ (function () {
         this.dataService.getWords(this.idSubCat)
             .subscribe(function (data) { return _this.words = data; });
     };
-    var _a, _b;
     ManualComponent = __decorate([
         Component({
             selector: 'manual',
             templateUrl: './manual.component.html',
-            providers: [DataService, NgbCarouselConfig],
-            styleUrls: ['./manual.component.css']
+            providers: [NgbCarouselConfig],
+            styleUrls: ['./manual.component.scss']
         }),
-        __metadata("design:paramtypes", [DataService, typeof (_a = typeof ActivatedRoute !== "undefined" && ActivatedRoute) === "function" ? _a : Object, typeof (_b = typeof NgbCarouselConfig !== "undefined" && NgbCarouselConfig) === "function" ? _b : Object])
+        __metadata("design:paramtypes", [DataService, ActivatedRoute, NgbCarouselConfig])
     ], ManualComponent);
     return ManualComponent;
 }());

@@ -8,8 +8,8 @@ import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 @Component({
     selector: 'slideshow',
     templateUrl: './slideshow.component.html',
-    providers: [DataService, NgbCarouselConfig],
-    styleUrls: ['./slideshow.component.css']
+    providers: [NgbCarouselConfig],
+    styleUrls: ['./slideshow.component.scss']
 })
 export class SlideshowComponent implements OnInit {
 

@@ -26,15 +26,13 @@ var SubCategoriesComponent = /** @class */ (function () {
         this.dataService.getSubCategories(this.idCat)
             .subscribe(function (data) { return _this.subCategories = data; });
     };
-    var _a;
     SubCategoriesComponent = __decorate([
         Component({
             selector: 'sub-categories',
             templateUrl: './subCategories.component.html',
-            providers: [DataService],
-            styleUrls: ['./catTestsSubCat.component.css']
+            styleUrls: ['./catTestsSubCat.component.scss']
         }),
-        __metadata("design:paramtypes", [DataService, typeof (_a = typeof ActivatedRoute !== "undefined" && ActivatedRoute) === "function" ? _a : Object])
+        __metadata("design:paramtypes", [DataService, ActivatedRoute])
     ], SubCategoriesComponent);
     return SubCategoriesComponent;
 }());

@@ -23,8 +23,7 @@ var HomeComponent = /** @class */ (function () {
     HomeComponent = __decorate([
         Component({
             selector: 'home',
-            template: "<h3>Home</h3>",
-            providers: [DataService]
+            template: "<h3>Home</h3>"
         }),
         __metadata("design:paramtypes", [DataService])
     ], HomeComponent);

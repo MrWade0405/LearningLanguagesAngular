@@ -1,12 +1,20 @@
-﻿<div id="result" *ngIf="idTest != 10">
+﻿<div id="result" *ngIf="idTest != 10 && !finishedTest">
     <b [ngClass]="{'text-success' : isCorrect && questionNumber != 1, 'text-danger' : !isCorrect && questionNumber != 1}">Score: {{totalResult}} Question {{questionNumber}}/{{totalQuestions}}</b>
 </div>
 
-<div id="result" *ngIf="idTest == 10">
-    <b>Score: {{totalResult}}  Question {{questionNumberFor10}}/{{totalQuestions / countOptions}}</b>
+<div id="result" *ngIf="idTest != 10 && finishedTest">
+    <b>Score: {{totalResult}} Total Question: {{totalQuestions}}</b>
 </div>
 
-<div id="test" *ngIf="randomWords">
+<div id="result" *ngIf="idTest == 10 && !finishedTest">
+    <b>Score: {{totalResult}} Question {{questionNumberFor10}}/{{totalQuestions / countOptions}}</b>
+</div>
+
+<div id="result" *ngIf="idTest == 10 && finishedTest">
+    <b>Score: {{totalResult}} Total Question: {{totalQuestions / countOptions}}</b>
+</div>
+
+<div id="test" *ngIf="randomWords && !finishedTest">
     <div class="words" *ngIf="idTest == 1 || idTest == 2 || idTest == 4">
         <label class="word" *ngFor="let word of randomWords; let i = index">
             <input type="radio" name="test" value="{{i}}" (change)="changeAnswer($event.target)">
@@ -77,9 +85,7 @@
     </div>
 </div>
 
-
-
-<div class="buttonSubmit" *ngIf="idTest == 5">
+<div class="buttonSubmit" *ngIf="idTest == 5  && !finishedTest">
     <button type="submit" class="btn btn-success" value="1" (click)="check($event)">True</button>
     <button type="submit" class="btn btn-danger" value="2" (click)="check($event)">False</button>
 </div>
@@ -92,19 +98,24 @@
     Please fill out the field!
 </div>
 
-<div id="answer" *ngIf="idTest == 10">
+<div id="answer" *ngIf="idTest == 10 && !finishedTest">
     <h3>Your answer: </h3>
     <p *ngFor="let word of randomWordsAnswerLeft; let i = index">
         {{word?.wordNativeLang}} - {{randomWordsAnswerRight[i]?.wordNativeLang}}
     </p>
 </div>
 
-<div class="buttonSubmit" *ngIf="idTest == 10">
+<div class="buttonSubmit" *ngIf="idTest == 10 && !finishedTest">
     <button *ngIf="numberQA != 4" type="button" class="btn btn-primary" (click)="next()">Next</button>
     <button *ngIf="numberQA == 4" id="submit" type="submit" class="btn btn-success" (click)="check(false)">Submit</button>
     <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
 </div>
 
-<div class="buttonSubmit" *ngIf="idTest != 5 && idTest != 10">
+<div class="buttonSubmit" *ngIf="idTest != 5 && idTest != 10 && !finishedTest">
     <button type="submit" class="btn btn-success" (click)="check()">Submit</button>
+</div>
+
+<div class="buttonSubmit" *ngIf="finishedTest">
+    <button type="submit" class="btn btn-primary" (click)="again()">Again</button>
+    <a *ngIf="isUser" class="btn btn-secondary" routerLink="/Account/Statistics" role="button" routerLinkActive="active">To general statistics</a>
 </div>

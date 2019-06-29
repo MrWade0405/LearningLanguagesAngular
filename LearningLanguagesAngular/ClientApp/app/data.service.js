@@ -17,6 +17,16 @@ var DataService = /** @class */ (function () {
         this.subCategoriesUrl = "/Home/Categories/SubCategories";
         this.testsUrl = "/Home/Categories/SubCategories/Tests";
         this.manualUrl = "/Home/Categories/SubCategories/Tests/Manual";
+        this.testUrl = "/Home/Categories/SubCategories/Tests/Test";
+        this.accountIndexUrl = "/Account/Manage/Index";
+        this.accountPersonalInfoUrl = "/Account/Manage/PersonalInfo";
+        this.accountChangePasswordUrl = "/Account/Manage/ChangePassword";
+        this.accountStatisticsUrl = "/Account/Manage/Statistics";
+        this.accountRatingUrl = "/Account/Manage/Rating";
+        this.registerUrl = "/Account/Register";
+        this.loginUrl = "/Account/Login";
+        this.usersInfoUrl = "/Account/UsersInfo";
+        this.logoutUrl = "/Account/Logout";
     }
     DataService.prototype.getCategories = function () {
         return this.http.get(this.categoriesUrl);
@@ -33,10 +43,48 @@ var DataService = /** @class */ (function () {
     DataService.prototype.getWords = function (id) {
         return this.http.get(this.manualUrl + '?id=' + id);
     };
-    var _a;
+    DataService.prototype.setResultTest = function (data) {
+        return this.http.post(this.testUrl, data);
+    };
+    DataService.prototype.getSettings = function () {
+        return this.http.get(this.accountIndexUrl);
+    };
+    DataService.prototype.setSettings = function (settings) {
+        return this.http.post(this.accountIndexUrl, settings);
+    };
+    DataService.prototype.getPersonalInfo = function () {
+        return this.http.get(this.accountPersonalInfoUrl);
+    };
+    DataService.prototype.setPersonalInfo = function (data) {
+        return this.http.post(this.accountPersonalInfoUrl, data);
+    };
+    DataService.prototype.setPassword = function (data) {
+        return this.http.post(this.accountChangePasswordUrl, data);
+    };
+    DataService.prototype.getStatistics = function () {
+        return this.http.get(this.accountStatisticsUrl);
+    };
+    DataService.prototype.getRating = function () {
+        return this.http.get(this.accountRatingUrl);
+    };
+    DataService.prototype.register = function (user) {
+        return this.http.post(this.registerUrl, user);
+    };
+    DataService.prototype.loginGet = function (returnUrl) {
+        return this.http.get(this.loginUrl + '?returnUrl=' + returnUrl);
+    };
+    DataService.prototype.loginPost = function (user) {
+        return this.http.post(this.loginUrl, user);
+    };
+    DataService.prototype.getUsersInfo = function () {
+        return this.http.get(this.usersInfoUrl);
+    };
+    DataService.prototype.logout = function () {
+        return this.http.get(this.logoutUrl);
+    };
     DataService = __decorate([
         Injectable(),
-        __metadata("design:paramtypes", [typeof (_a = typeof HttpClient !== "undefined" && HttpClient) === "function" ? _a : Object])
+        __metadata("design:paramtypes", [HttpClient])
     ], DataService);
     return DataService;
 }());

@@ -43,7 +43,9 @@ var SlideshowComponent = /** @class */ (function () {
             if (word) {
                 sound.src = word.sound;
             }
-            listAudio.push(sound);
+            if (!sound.src.includes('null')) {
+                listAudio.push(sound);
+            }
         }
         if (this.words[0].enablePronounceLearnLang) {
             var pronounceLearn = new Audio();
@@ -91,15 +93,14 @@ var SlideshowComponent = /** @class */ (function () {
             this.iterator++;
         }
     };
-    var _a, _b;
     SlideshowComponent = __decorate([
         Component({
             selector: 'slideshow',
             templateUrl: './slideshow.component.html',
-            providers: [DataService, NgbCarouselConfig],
-            styleUrls: ['./slideshow.component.css']
+            providers: [NgbCarouselConfig],
+            styleUrls: ['./slideshow.component.scss']
         }),
-        __metadata("design:paramtypes", [DataService, typeof (_a = typeof ActivatedRoute !== "undefined" && ActivatedRoute) === "function" ? _a : Object, typeof (_b = typeof NgbCarouselConfig !== "undefined" && NgbCarouselConfig) === "function" ? _b : Object])
+        __metadata("design:paramtypes", [DataService, ActivatedRoute, NgbCarouselConfig])
     ], SlideshowComponent);
     return SlideshowComponent;
 }());

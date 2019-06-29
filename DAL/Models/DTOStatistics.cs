@@ -10,5 +10,7 @@ namespace DAL.Models
         public List<DTO> LangList { get; set; }
         public List<DTO> CatList { get; set; }
         public List<DTO> SubCatList { get; set; }
+        public List<DTOTotalRating> TotalRatings { get; set; }
+        public List<DTOTotalRating> LangRatings { get; set; }
     }
 }

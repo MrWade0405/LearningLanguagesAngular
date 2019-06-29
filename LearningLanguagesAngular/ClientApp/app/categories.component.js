@@ -25,8 +25,7 @@ var CategoriesComponent = /** @class */ (function () {
         Component({
             selector: 'categories',
             templateUrl: './categories.component.html',
-            providers: [DataService],
-            styleUrls: ['./catTestsSubCat.component.css']
+            styleUrls: ['./catTestsSubCat.component.scss']
         }),
         __metadata("design:paramtypes", [DataService])
     ], CategoriesComponent);

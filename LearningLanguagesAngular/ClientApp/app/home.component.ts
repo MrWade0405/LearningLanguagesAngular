@@ -3,8 +3,7 @@ import { DataService } from './data.service';
 
 @Component({
     selector: 'home',
-    template: `<h3>Home</h3>`,
-    providers: [DataService]
+    template: `<h3>Home</h3>`
 })
 export class HomeComponent implements OnInit {
 

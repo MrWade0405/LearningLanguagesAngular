@@ -20,5 +20,7 @@ namespace DAL.ViewModels
         public string Username { get; set; }
 
         public IFormFile Avatar { get; set; }
+
+        public string ErrorMessage { get; set; }
     }
 }

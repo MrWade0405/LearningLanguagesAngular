@@ -129,5 +129,81 @@ namespace LearningLanguages.Controllers
 
             return NativeLearnLangWords;
         }
+
+        [HttpPost("Home/Categories/SubCategories/Tests/Test")]
+        public async Task<bool> Test([FromBody]DTOTestResultInfo resultInfo)
+        {
+            var isUser = false;
+            string currentUserId = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (String.IsNullOrEmpty(currentUserId))
+            {
+                return isUser;
+            }
+
+            int idLangLearn = (int)HttpContext.Session.GetInt32("idLangLearn");
+            DateTime testDate = DateTime.Now;
+
+            TestResults testResult = new TestResults()
+            {
+                Result = resultInfo.TotalResult,
+                UserId = currentUserId,
+                LangId = idLangLearn,
+                CategoryId = resultInfo.SubCategoryId,
+                TestDate = testDate,
+                TestId = resultInfo.TestNumber
+            };
+
+            var testResultList = await _testResults.GetAll().Where(x => x.TestId == resultInfo.TestNumber && x.LangId == idLangLearn && 
+                                                                         x.CategoryId == resultInfo.SubCategoryId).ToListAsync();
+            var totalScoresList = await _totalScores.GetAll().Where(x => x.UserId == currentUserId && 
+                                                                          x.LangId == idLangLearn).ToListAsync();
+
+            int maxTestResultBefore = -1;
+
+            if (testResultList.Any())
+            {
+                maxTestResultBefore = testResultList.Max(x => x.Result);
+            }
+
+            _testResults.Create(testResult);
+
+            if (!totalScoresList.Any() && !testResultList.Any())
+            {
+                TotalScores totalScore = new TotalScores()
+                {
+                    Total = resultInfo.TotalResult,
+                    UserId = currentUserId,
+                    LangId = idLangLearn
+                };
+
+                _totalScores.Create(totalScore);
+            }
+            else if (!testResultList.Any())
+            {
+                TotalScores totalScore = totalScoresList.First();
+                totalScore.Total += testResult.Result;
+
+                _totalScores.Update(totalScore);
+            }
+            else
+            {
+                TotalScores totalScore = totalScoresList.First();
+
+                if (Math.Max(resultInfo.TotalResult, maxTestResultBefore) == resultInfo.TotalResult)
+                {
+                    totalScore.Total += Math.Abs(resultInfo.TotalResult - maxTestResultBefore);
+                }
+
+                _totalScores.Update(totalScore);
+            }
+
+            _testResults.Save();
+            _totalScores.Save();
+
+            isUser = true;
+
+            return isUser;
+        }
     }
 }

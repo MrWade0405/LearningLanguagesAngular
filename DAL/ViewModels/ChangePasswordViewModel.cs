@@ -6,7 +6,7 @@ using System.Text;
 namespace DAL.ViewModels
 {
     public class ChangePasswordViewModel
-    {
+    { 
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Current password")]
@@ -22,5 +22,7 @@ namespace DAL.ViewModels
         [Display(Name = "Confirm new password")]
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        public string ErrorMessage { get; set; }
     }
 }
