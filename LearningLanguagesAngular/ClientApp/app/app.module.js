@@ -30,6 +30,7 @@ import { AccountPersonalInfoComponent } from './accountPersonalInfo.component';
 import { AccountChangePasswordComponent } from './accountChangePassword.component';
 import { AccountStatisticsComponent } from './accountStatistics.component';
 import { AccountRatingComponent } from './accountRating.component';
+import { ExternalLoginComponent } from './externalLogin.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 var manageRoutes = [
     { path: 'Index', component: AccountIndexComponent },
@@ -49,6 +50,7 @@ var appRoutes = [
     { path: 'Account/Manage', component: ManageComponent, children: manageRoutes },
     { path: 'Account/Register', component: RegisterComponent },
     { path: 'Account/Login', component: LoginComponent },
+    { path: 'Account/Callback', component: ExternalLoginComponent },
     { path: '**', redirectTo: '/' }
 ];
 var AppModule = /** @class */ (function () {
@@ -62,7 +64,7 @@ var AppModule = /** @class */ (function () {
                 NavComponent, BreadcrumbComponent, ManualComponent, SlideshowComponent, TestComponent,
                 RegisterComponent, LoginComponent, ManageComponent, ManageNavComponent, AccountIndexComponent,
                 AccountPersonalInfoComponent, AccountChangePasswordComponent, AccountStatisticsComponent,
-                AccountRatingComponent],
+                AccountRatingComponent, ExternalLoginComponent],
             bootstrap: [AppComponent]
         })
     ], AppModule);

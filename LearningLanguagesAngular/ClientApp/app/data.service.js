@@ -7,10 +7,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Injectable } from '@angular/core';
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { DOCUMENT } from '@angular/common';
 var DataService = /** @class */ (function () {
-    function DataService(http) {
+    function DataService(document, http) {
+        this.document = document;
         this.http = http;
         this.homeUrl = "/Home/Index";
         this.categoriesUrl = "/Home/Categories";
@@ -25,6 +30,8 @@ var DataService = /** @class */ (function () {
         this.accountRatingUrl = "/Account/Manage/Rating";
         this.registerUrl = "/Account/Register";
         this.loginUrl = "/Account/Login";
+        this.externalLoginUrl = "/Account/Login/ExternalLogin";
+        this.callbackUrl = "/Account/Callback";
         this.usersInfoUrl = "/Account/UsersInfo";
         this.logoutUrl = "/Account/Logout";
     }
@@ -76,6 +83,24 @@ var DataService = /** @class */ (function () {
     DataService.prototype.loginPost = function (user) {
         return this.http.post(this.loginUrl, user);
     };
+    DataService.prototype.externalLogin = function (provider, returnUrl) {
+        var externalLogin = {
+            provider: provider,
+            returnUrl: returnUrl
+        };
+        //return this.http.post(this.externalLoginUrl, externalLogin);
+        var url = "https://localhost:44374/Account/Login/ExternalLogin?provider=" + provider + "&returnUrl=" + returnUrl;
+        this.document.location.href = url;
+    };
+    DataService.prototype.callbackGet = function (returnUrl, remoteError) {
+        if (remoteError) {
+            return this.http.get(this.callbackUrl + '?returnUrl=' + returnUrl + "&remoteError=" + remoteError);
+        }
+        return this.http.get(this.callbackUrl + '?returnUrl=' + returnUrl);
+    };
+    DataService.prototype.callbackPost = function (data) {
+        return this.http.post(this.callbackUrl, data);
+    };
     DataService.prototype.getUsersInfo = function () {
         return this.http.get(this.usersInfoUrl);
     };
@@ -84,7 +109,8 @@ var DataService = /** @class */ (function () {
     };
     DataService = __decorate([
         Injectable(),
-        __metadata("design:paramtypes", [HttpClient])
+        __param(0, Inject(DOCUMENT)),
+        __metadata("design:paramtypes", [Document, HttpClient])
     ], DataService);
     return DataService;
 }());

@@ -14,6 +14,7 @@ var NavComponent = /** @class */ (function () {
     function NavComponent(dataService, router) {
         this.dataService = dataService;
         this.router = router;
+        this.returnUrl = this.router.url;
     }
     NavComponent.prototype.ngOnInit = function () {
         this.getUsersInfo();

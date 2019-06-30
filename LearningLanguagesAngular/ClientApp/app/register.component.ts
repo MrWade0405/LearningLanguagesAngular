@@ -35,7 +35,6 @@ export class RegisterComponent implements OnInit {
         if (this.registerForm.invalid) {
             return;
         }
-
         this.dataService.register(this.registerForm.value)
             .subscribe((data: any) => this.router.navigate(['/']),
                         err => this.router.navigate(['/Account/Register']));

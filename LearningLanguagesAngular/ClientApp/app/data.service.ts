@@ -1,6 +1,7 @@
-﻿import { Injectable } from '@angular/core';
+﻿import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DTO } from './DTO';
+import { DOCUMENT } from '@angular/common';
 
 @Injectable()
 export class DataService {
@@ -18,10 +19,12 @@ export class DataService {
     private accountRatingUrl = "/Account/Manage/Rating";
     private registerUrl = "/Account/Register";
     private loginUrl = "/Account/Login";
+    private externalLoginUrl = "/Account/Login/ExternalLogin";
+    private callbackUrl = "/Account/Callback";
     private usersInfoUrl = "/Account/UsersInfo";
     private logoutUrl = "/Account/Logout";
 
-    constructor(private http: HttpClient) {
+    constructor(@Inject(DOCUMENT) private document: Document, private http: HttpClient) {
     }
 
     getCategories() {
@@ -86,6 +89,29 @@ export class DataService {
 
     loginPost(user: any) {
         return this.http.post(this.loginUrl, user);
+    }
+
+    externalLogin(provider: string, returnUrl: string) {
+        var externalLogin = {
+            provider,
+            returnUrl
+        };
+
+        //return this.http.post(this.externalLoginUrl, externalLogin);
+        var url = "https://localhost:44374/Account/Login/ExternalLogin?provider=" + provider + "&returnUrl=" + returnUrl;
+        this.document.location.href = url;
+    }
+
+    callbackGet(returnUrl: string, remoteError: string) {
+        if (remoteError) {
+            return this.http.get(this.callbackUrl + '?returnUrl=' + returnUrl + "&remoteError=" + remoteError);
+        }
+
+        return this.http.get(this.callbackUrl + '?returnUrl=' + returnUrl);
+    }
+
+    callbackPost(data: any) {
+        return this.http.post(this.callbackUrl, data);
     }
 
     getUsersInfo() {

@@ -55,6 +55,17 @@ namespace LearningLanguagesAngular
             services.AddIdentity<Users, IdentityRole>()
                 .AddEntityFrameworkStores<LearningLanguagesContext>();
 
+            services.AddAuthentication().AddGoogle(googleOptions =>
+            {
+                googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
+                googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+            })
+            .AddFacebook(facebookOptions =>
+            {
+                facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
+                facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

@@ -1,4 +1,5 @@
-﻿import { Component } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
+import { DataService } from './data.service';
 
 @Component({
     selector: 'manage-nav',
@@ -7,4 +8,17 @@
     `],
     templateUrl: './manageNav.component.html'
 })
-export class ManageNavComponent { }
+export class ManageNavComponent implements OnInit {
+
+    usersInfo: any;
+
+    constructor(private dataService: DataService) { }
+
+    ngOnInit() {
+        this.getUsersInfo();
+    }
+
+    getUsersInfo() {
+        this.dataService.getUsersInfo().subscribe((data: any) => this.usersInfo = data);
+    }
+}

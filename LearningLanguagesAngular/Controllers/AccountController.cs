@@ -104,19 +104,21 @@ namespace LearningLanguagesAngular.Controllers
                     Email = model.Email,
                     UserName = model.Email
                 };
-
+                
                 if (model.Avatar != null)
                 {
-                    byte[] imageData = null;
+                    var fileName = Path.GetFileName(model.Avatar.FileName);
 
-                    using (var binaryReader = new BinaryReader(model.Avatar.OpenReadStream()))
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\UserImages", fileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
-                        imageData = binaryReader.ReadBytes((int)model.Avatar.Length);
+                        await model.Avatar.CopyToAsync(fileStream);
                     }
 
-                    user.Avatar = imageData;
+                    user.Avatar = "../" + filePath.Substring(filePath.IndexOf("UserImages"));
                 }
-
+                
                 var addedUser = await _userManager.CreateAsync(user, model.Password);
 
                 if (addedUser.Succeeded)
@@ -143,11 +145,11 @@ namespace LearningLanguagesAngular.Controllers
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-            //ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             LoginViewModel login = new LoginViewModel
             {
-                //ExternalLogins = ExternalLogins,
+                ExternalLogins = ExternalLogins,
                 ReturnUrl = returnUrl
             };
 
@@ -174,6 +176,109 @@ namespace LearningLanguagesAngular.Controllers
             }
 
             return model;
+        }
+
+        [HttpGet("Account/Login/ExternalLogin")]
+        public IActionResult ExternalLogin(string provider, string returnUrl)
+        {
+            //var redirectUrl = Url.Action("Account", "Callback", new { returnUrl = externalLogin.ReturnUrl });
+            var redirectUrl = $"/#/Account/Callback?returnUrl={returnUrl}";
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+
+            return new ChallengeResult(provider, properties);
+        }
+
+        [HttpGet("Account/Callback")]
+        public async Task<ExternalLoginViewModel> Callback(string returnUrl = null, string remoteError = null)
+        {
+            returnUrl = returnUrl ?? Url.Content("~/");
+
+            externalLoginViewModel.ReturnUrl = returnUrl;
+
+            if (remoteError != null)
+            {
+                externalLoginViewModel.ErrorMessage = $"Error from external provider: {remoteError}";
+                return externalLoginViewModel;
+            }
+
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+
+            if (info == null)
+            {
+                externalLoginViewModel.ErrorMessage = "Error loading external login information.";
+                return externalLoginViewModel;
+            }
+
+            // Sign in the user with this external login provider if the user already has a login.
+            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+
+            if (result.Succeeded)
+            {
+                return externalLoginViewModel;
+            }
+
+            if (result.IsLockedOut)
+            {
+                externalLoginViewModel.ErrorMessage = "This account has been locked out, please try again later.";
+                return externalLoginViewModel;
+            }
+            else
+            {
+                // If the user does not have an account, then ask the user to create an account.
+                externalLoginViewModel.LoginProvider = info.LoginProvider;
+
+                if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
+                {
+                    ExternalLoginViewModel login = new ExternalLoginViewModel
+                    {
+                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+                    };
+                }
+                return externalLoginViewModel;
+            }
+        }
+
+        [HttpPost("Account/Callback")]
+        public async Task<ExternalLoginViewModel> Callback([FromBody]ExternalLoginViewModel externalLoginViewModel)
+        {
+            externalLoginViewModel.ReturnUrl = externalLoginViewModel.ReturnUrl ?? Url.Content("~/");
+
+            // Get the information about the user from the external login provider
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+
+            if (info == null)
+            {
+                externalLoginViewModel.ErrorMessage = "Error loading external login information during confirmation.";
+
+                return externalLoginViewModel;
+            }
+
+            if (ModelState.IsValid)
+            {
+                var user = new Users { UserName = externalLoginViewModel.Email, Email = externalLoginViewModel.Email };
+                var result = await _userManager.CreateAsync(user);
+
+                if (result.Succeeded)
+                {
+                    result = await _userManager.AddLoginAsync(user, info);
+
+                    if (result.Succeeded)
+                    {
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+
+                        return externalLoginViewModel;
+                    }
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+
+            externalLoginViewModel.LoginProvider = info.LoginProvider;
+
+            return externalLoginViewModel;
         }
 
         [HttpGet("Account/Logout")]
@@ -281,17 +386,25 @@ namespace LearningLanguagesAngular.Controllers
                     user.UserName = username;
                 }
 
-                //if (model.Avatar != null)
-                //{
-                //    byte[] imageData = null;
+                if (model.Avatar != null)
+                {
+                    var currentUser = await _userManager.GetUserAsync(User);
 
-                //    using (var binaryReader = new BinaryReader(model.Avatar.OpenReadStream()))
-                //    {
-                //        imageData = binaryReader.ReadBytes((int)model.Avatar.Length);
-                //    }
+                    var fileOldPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\UserImages", currentUser.Avatar);
 
-                //    user.Avatar = imageData;
-                //}
+                    System.IO.File.Delete(fileOldPath);
+
+                    var fileName = Path.GetFileName(model.Avatar.FileName);
+
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\UserImages", fileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await model.Avatar.CopyToAsync(fileStream);
+                    }
+
+                    user.Avatar = "../" + filePath.Substring(filePath.IndexOf("UserImages"));
+                }
 
                 await _userManager.UpdateAsync(user);
 

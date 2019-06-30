@@ -14,5 +14,7 @@ namespace DAL.ViewModels
         public string LoginProvider { get; set; }
 
         public string ReturnUrl { get; set; }
+
+        public string ErrorMessage { get; set; }
     }
 }

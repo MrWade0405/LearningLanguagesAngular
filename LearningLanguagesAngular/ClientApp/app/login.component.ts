@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
     submitted = false;
     loginForm: FormGroup;
     returnUrl: string = '#';
+    externalLogins: any;
     errorMessage: string = '';
 
     private subscription: Subscription;
@@ -21,7 +22,9 @@ export class LoginComponent implements OnInit {
     constructor(private dataService: DataService, private formBuilder: FormBuilder, private router: Router, activeRoute: ActivatedRoute) {
         this.subscription = activeRoute.queryParams.subscribe(
             (queryParam: any) => {
-                this.returnUrl = queryParam['returnUrl'];
+                if (queryParam['returnUrl'] != undefined) {
+                    this.returnUrl = queryParam['returnUrl'];
+                }
             }
         );
     }
@@ -39,7 +42,10 @@ export class LoginComponent implements OnInit {
 
     loginGet() {
         this.dataService.loginGet(this.returnUrl)
-            .subscribe((data: any) => this.returnUrl = data.returnUrl);
+            .subscribe((data: any) => {
+                this.returnUrl = data.returnUrl;
+                this.externalLogins = data.externalLogins;
+            });
     }
 
     loginPost() {
@@ -51,7 +57,6 @@ export class LoginComponent implements OnInit {
 
         this.dataService.loginPost(this.loginForm.value)
             .subscribe((data: any) => {
-                console.log(data);
                 this.returnUrl = data.returnUrl
                 this.errorMessage = data.errorMessage;
                 if (this.errorMessage == "") {
@@ -59,5 +64,10 @@ export class LoginComponent implements OnInit {
                 }
             },
             (err: any) => this.router.navigate(['/Account/Login']));
+    }
+
+    externalLogin(provider: string) {
+        console.log(provider, this.returnUrl)
+        this.dataService.externalLogin(provider, this.returnUrl);
     }
 }

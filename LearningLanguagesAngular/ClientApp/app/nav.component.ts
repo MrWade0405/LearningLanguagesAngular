@@ -12,8 +12,10 @@ import { Router } from '@angular/router';
 export class NavComponent implements OnInit {
 
     usersInfo: any;
-    constructor(private dataService: DataService, private router: Router) {
 
+    returnUrl: string;
+    constructor(private dataService: DataService, private router: Router) {
+        this.returnUrl = this.router.url;
     }
 
     ngOnInit() {

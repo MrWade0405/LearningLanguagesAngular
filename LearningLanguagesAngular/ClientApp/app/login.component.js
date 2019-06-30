@@ -22,7 +22,9 @@ var LoginComponent = /** @class */ (function () {
         this.returnUrl = '#';
         this.errorMessage = '';
         this.subscription = activeRoute.queryParams.subscribe(function (queryParam) {
-            _this.returnUrl = queryParam['returnUrl'];
+            if (queryParam['returnUrl'] != undefined) {
+                _this.returnUrl = queryParam['returnUrl'];
+            }
         });
     }
     LoginComponent.prototype.ngOnInit = function () {
@@ -41,7 +43,10 @@ var LoginComponent = /** @class */ (function () {
     LoginComponent.prototype.loginGet = function () {
         var _this = this;
         this.dataService.loginGet(this.returnUrl)
-            .subscribe(function (data) { return _this.returnUrl = data.returnUrl; });
+            .subscribe(function (data) {
+            _this.returnUrl = data.returnUrl;
+            _this.externalLogins = data.externalLogins;
+        });
     };
     LoginComponent.prototype.loginPost = function () {
         var _this = this;
@@ -51,13 +56,16 @@ var LoginComponent = /** @class */ (function () {
         }
         this.dataService.loginPost(this.loginForm.value)
             .subscribe(function (data) {
-            console.log(data);
             _this.returnUrl = data.returnUrl;
             _this.errorMessage = data.errorMessage;
             if (_this.errorMessage == "") {
                 _this.router.navigate([_this.returnUrl]);
             }
         }, function (err) { return _this.router.navigate(['/Account/Login']); });
+    };
+    LoginComponent.prototype.externalLogin = function (provider) {
+        console.log(provider, this.returnUrl);
+        this.dataService.externalLogin(provider, this.returnUrl);
     };
     LoginComponent = __decorate([
         Component({
