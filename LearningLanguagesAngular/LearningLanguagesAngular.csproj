@@ -8,6 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ClientApp\app\components\NewFolder\**" />
+    <Compile Remove="ClientApp\app\Home\**" />
+    <Content Remove="ClientApp\app\components\NewFolder\**" />
+    <Content Remove="ClientApp\app\Home\**" />
+    <EmbeddedResource Remove="ClientApp\app\components\NewFolder\**" />
+    <EmbeddedResource Remove="ClientApp\app\Home\**" />
+    <None Remove="ClientApp\app\components\NewFolder\**" />
+    <None Remove="ClientApp\app\Home\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />

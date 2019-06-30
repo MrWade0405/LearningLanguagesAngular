@@ -6,26 +6,26 @@ import { Routes, RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { AppComponent } from './app.component';
-import { NavComponent } from './nav.component';
-import { HomeComponent } from './home.component';
-import { CategoriesComponent } from './categories.component';
-import { SubCategoriesComponent } from './subCategories.component';
-import { TestsComponent } from './tests.component';
-import { BreadcrumbComponent } from './breadcrumb.component';
-import { ManualComponent } from './manual.component';
-import { SlideshowComponent } from './slideshow.component';
-import { TestComponent } from './test.component';
-import { RegisterComponent } from './register.component';
-import { LoginComponent } from './login.component';
-import { ManageComponent } from './manage.component';
-import { ManageNavComponent } from './manageNav.component';
-import { AccountIndexComponent } from './accountIndex.component';
-import { AccountPersonalInfoComponent } from './accountPersonalInfo.component';
-import { AccountChangePasswordComponent } from './accountChangePassword.component';
-import { AccountStatisticsComponent } from './accountStatistics.component';
-import { AccountRatingComponent } from './accountRating.component';
-import { ExternalLoginComponent } from './externalLogin.component';
+import { AppComponent } from './components/app.component';
+import { NavComponent } from './components/home/nav/nav.component';
+import { HomeComponent } from './components/home/home/home.component';
+import { CategoriesComponent } from './components/home/categories/categories.component';
+import { SubCategoriesComponent } from './components/home/sub-categories/sub-categories.component';
+import { TestsComponent } from './components/home/tests/tests.component';
+import { BreadcrumbComponent } from './components/home/breadcrumb/breadcrumb.component';
+import { ManualComponent } from './components/home/manual/manual.component';
+import { SlideshowComponent } from './components/home/slideshow/slideshow.component';
+import { TestComponent } from './components/home/test/test.component';
+import { RegisterComponent } from './components/home/register/register.component';
+import { LoginComponent } from './components/home/login/login.component';
+import { ManageComponent } from './components/account/manage/manage.component';
+import { ManageNavComponent } from './components/account/manage-nav/manage-nav.component';
+import { AccountIndexComponent } from './components/account/index/index.component';
+import { AccountPersonalInfoComponent } from './components/account/personal-info/personal-info.component';
+import { AccountChangePasswordComponent } from './components/account/change-password/change-password.component';
+import { AccountStatisticsComponent } from './components/account/statistics/statistics.component';
+import { AccountRatingComponent } from './components/account/rating/rating.component';
+import { ExternalLoginComponent } from './components/home/external-login/external-login.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
